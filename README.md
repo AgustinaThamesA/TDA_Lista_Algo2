@@ -60,6 +60,8 @@ vector_original = vector;
 
 ## Respuestas a las preguntas teóricas
 
+**PUNTO 1:** ¿Qué es una lista/pila/cola? Explicar con diagramas.
+
 ### LISTA
 
 Según lo definido por esta materia, la lista es un struct que cumple la función de agrupar elementos, teniendo en cuenta que los mismos tienen sucesor (excepto el último de la lista) y predecesor (excepto el primero de la lista). Más adelante, se definirán Pila y Cola, que son estructuras similares a la lista. En los tres casos, se pueden realizar las siguientes operaciones (que son las más generales):
@@ -188,3 +190,60 @@ Las implementaciones de la cola se dividen en las mismas categorías que la pila
 <div align="center">
 <img width="45%" src="img/desencolar_nodos.drawio.svg">
 </div>
+
+**PUNTO 2:** Explica y analiza las diferencias de complejidad entre las implementaciones de lista simplemente enlazada, doblemente enlazada y vector dinámico para las operaciones:
+- Insertar/obtener/eliminar al inicio
+- Insertar/obtener/eliminar al final
+- Insertar/obtener/eliminar al medio
+
+### Complejidades
+#### Lista Simplemente Enlazada
+##### Al inicio
+- Insertar: O(1) -> se crea un nuevo nodo y se ajustan los punteros para que el nuevo nodo sea el primero.
+- Obtener: O(1) -> se accede directamente al primer nodo.
+- Eliminar: O(1) -> se ajustan los punteros para saltar el nodo que se desea eliminar y luego se libera la memoria del nodo.
+
+##### Al final
+- Insertar: O(n) -> (en el peor caso) -> se debe recorrer toda la lista para llegar al ùltimo nodo y luego realizar la inserción.
+- Obtener: O(n) -> (en el peor caso) -> se debe recorrer toda la lista hasta el último nodo.
+- Eliminar: O(n) -> (en el peor caso) -> se debe recorrer toda la lista hasta el anteúltimo nodo, para luego cambiar los punteros y liberar los espacios de memoria correspondientes.
+
+##### Al medio
+- Insertar: O(n) -> (en el peor caso) -> se debe recorrer toda la lista para llegar a la posición deseada.
+- Obtener: O(n) -> (en el peor caso) -> se debe recorrrer toda la lista hasta llegar a la posición deseada.
+- Eliminar: O(n) -> (en el peor caso) -> se debe recorrer la lista hasta llegar al nodo anterior al que se quiere eliminar.
+
+#### Lista Doblemente Enlazada
+##### Al inicio
+- Insertar: O(1) -> se crea un nuevo nodo y se ajustan los punteros para que el nuevo nodo sea el primero.
+- Obtener: O(1) -> se accede directamente al primer nodo.
+- Eliminar: O(1) -> se ajustan los punteros para saltar el primer nodo y luego se libera la memoria del nodo.
+
+##### Al final
+- Insertar: O(1) ->se ajustan los punteros del último nodo.
+- Obtener: O(1) -> se accede directamente al último nodo.
+- Eliminar: O(1) -> se ajustan los punteros para saltar el último nodo y luego se libera la memoria del nodo.
+
+##### Al medio
+- Insertar: O(n) -> (en el peor caso) -> se debe recorrer toda la lista para llegar a la posición deseada.
+- Obtener: O(n) -> (en el peor caso) -> se debe recorrrer toda la lista hasta llegar a la posición deseada.
+- Eliminar: O(n) -> (en el peor caso) -> se debe recorrer la lista hasta llegar al nodo que se quiere eliminar.
+
+
+#### Vector Dinámico
+- En todos los casos, si se necesita redimensionar el vector, puede ser que el proceso lleve más tiempo de ejecución.
+
+##### Al inicio
+- Insertar: O(n) -> (en el peor caso) -> se deben mover todos los elementos actuales una posición más atrás para poner el nuevo elemento en la posición 0.
+- Obtener y eliminar: O(1) -> acceso directo a cualquier posición del vector una vez que se conoce el índice.
+
+##### Al final
+- Insertar: O(1) -> si hay espacio disponible en el vector, la inserción al final es más sencilla. 
+- Obtener y eliminar: O(1) -> acceso directo a cualquier posición del arreglo una vez que se conoce el índice.
+
+##### Al medio
+- Insertar: O(n) -> (en el peor caso) -> se deben mover todos los elementos actuales que estén después de la posición en la que se va a insertar, para poner el nuevo elemento en el lugar deseado.
+- Obtener y eliminar: O(1) -> acceso directo a cualquier posición del arreglo una vez que se conoce el índice.
+
+
+**PUNTO 3:** Explica la complejidad de las operaciones implementadas en tu trabajo para la pila y la cola.
