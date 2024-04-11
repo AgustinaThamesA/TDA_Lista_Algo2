@@ -4,8 +4,6 @@
 
 # TDA LISTA
 
-# ESTO ES UN TEMPLATE, COMPLETAR LO QUE HAGA FALTA, ELIMINAR LO QUE SOBRE (INCLUIDA ESTA LÍNEA)
-
 ## Alumno: Agustina Thames Alderete - 111287 - athames@fi.uba.ar
 
 - Para compilar:
@@ -61,25 +59,20 @@ vector_original = vector;
 ---
 
 ## Respuestas a las preguntas teóricas
-Incluír acá las respuestas a las preguntas del enunciado (si aplica).
 
-------------------------------------------------------------------------------------------------------------------------
+###LISTA
 
-LISTA
-
-Según lo definido por esta materia, la lista es un struct que cumple la función de agrupar elementos, teniendo en cuenta que los mismos tienen sucesor (excepto el último de la lista) y predecesor (excepto el primero de la lista).
-Las operaciones que se pueden hacer con una lista son:
-    - Crear (create): devuelve la lista creada.
-    - Insertar (insertAt): se inserta un elemento en algún lugar de la lista, pidiendo anticipadamente la memoria que corresponda.
-    - Vacía (isEmpty): devuelve un booleano que indica si la lista está vacía o no.
-    - Destruir (destroy): se destruye completamente la lista, y se libera la memoria correspondiente.
-    - Eliminar (deleteAt): se elimina un elemento de la lista y se libera la memoria correspondiente.
-    - Ver elemento (find): se busca un elemento según alguna condición (posición, contenido, etc.).
+Según lo definido por esta materia, la lista es un struct que cumple la función de agrupar elementos, teniendo en cuenta que los mismos tienen sucesor (excepto el último de la lista) y predecesor (excepto el primero de la lista). Más adelante, se definirán Pila y Cola, que son estructuras similares a la lista. En los tres casos, se pueden realizar las siguientes operaciones (que son las más generales):
+    - Crear (create).
+    - Insertar (insertAt) / Agregar.
+    - Vacía (isEmpty).
+    - Destruir (destroy).
+    - Eliminar (deleteAt) / Sacar.
+    - Ver elemento (find).
 
 Las implementaciones vistas son de lista de nodos, o también nombrado como Nodos Enlazados. Los nodos se caracterizan por tener dos tipos de elementos, puntero/s y el elemento en el elemento.
 Se clasifica en 4 tipos:
     - Simplemente enlazada: cada nodo tiene un elemento y un puntero que hace referencia al nodo siguiente. El último nodo de la lista apunta a NULL.
-
 <div align="center">
 <img width="70%" src="img/lista_s_e.drawio.svg">
 </div>
@@ -95,7 +88,6 @@ Se clasifica en 4 tipos:
 <div align="center">
 <img width="70%" src="img/elimino_posicion_s_e.drawio.svg">
 </div>
-
     - Doblemente enlazada: cada nodo tiene un elemento, un puntero que hace referencia al nodo anterior y un puntero que hace referencia al nodo siguiente. El puntero al anterior del primer nodo apunta a NULL, al igual que el puntero al siguiente del último nodo.
 <div align="center">
 <img width="70%" src="img/lista_d_e.drawio.svg">
@@ -108,7 +100,6 @@ Se clasifica en 4 tipos:
 <div align="center">
 <img width="70%" src="img/elimino_posicion_d_e.drawio.svg">
 </div>
-
     - Circular simplemente enlazada: tiene una estructura similar a la simplemente enlazada, sólo que los punteros nunca apuntan a NULL. El puntero del último elemento, apunta al primero de la lista.
     Las operaciones (insertar y eliminar) se hacen de la misma manera que en el primer caso.
 <div align="center">
@@ -119,35 +110,28 @@ Se clasifica en 4 tipos:
 <div align="center">
 <img width="70%" src="img/lista_circular_d_e.drawio.svg">
 </div>
-------------------------------------------------------------------------------------------------------------------------
 
-PILA
+###PILA
 
-De acuerdo a lo explicado en clase, una pila es una estructura de datos que agrupa elemento bajo la política de salida LIFO "Last In, First Out". La única manera que tenemos para acceder a la pila es a través de su tope.
-Al igual que en la lista, las pilas tienen ciertas operaciones que se pueden realizar para manejarlas:
-    - Crear (create).
-    - Apilar (push).
-    - Tope (top).
-    - Destruir (destroy).
-    - Desapilar (pop).
-    - Vacía (isEmpty).
+    De acuerdo a lo explicado en clase, una pila es una estructura de datos que agrupa elemento bajo la política de salida LIFO "Last In, First Out". La única manera que tenemos para acceder a la pila es a través de su tope.
+    Además de las operaciones que tiene la lista, la pila tiene otras que se pueden realizar para manejarlas:
+        - Apilar (push).
+        - Tope (top).
+        - Desapilar (pop).
 
-Hay 3 implementaciones de la pila que vimos en clase:
-    - Vector estático: en esta implementación, se debe tener en cuenta que cuando se llega al tope del vector estático, NO se puede agregar nada más.
-        - Para apilar, debemos tener en cuenta que el tope sea distinto a la cantidad de 'casilleros' que tiene la pila.
-        - Para ver si está vacía, el tope tiene que ser igual a 0.
-        - Para desapilar, el tope tiene que ser distinto a 0.
-
-    - Vector dinámico:
-        - Siempre se puede apilar, ya que cuando se llega al tope, se puede pedir más memoria (ya que es dinámico).
-        - Para ver si está vacía, el tope tiene que ser igual a 0.
-        - Para desapilar, el tope tiene que ser distinto a 0.
-    En esta implementación, se debe tener en cuenta la REDIMENSIÓN del vector.
-    Por ejemplo, si estoy apilando y el vector supera el 75% de su capacidad, debo hacer realloc al vector para pedirle más memoria.
-    Pero en el caso de que esté desapilando, si la capacidad ocupada es del 25%, también debería hacer realloc del mismo.
-
-
-    - Pila como lista de nodos: en esta implementación, el puntero de la pila apunta al primer nodo de la misma. En este caso, los nodos se componen de un puntero al nodo anterior y un elemento.
+    Hay 3 implementaciones de la pila que vimos en clase:
+        - Vector estático: en esta implementación, se debe tener en cuenta que cuando se llega al tope del vector estático, NO se puede agregar nada más.
+            - Para apilar, debemos tener en cuenta que el tope sea distinto a la cantidad de 'casilleros' que tiene la pila.
+            - Para ver si está vacía, el tope tiene que ser igual a 0.
+            - Para desapilar, el tope tiene que ser distinto a 0.
+        - Vector dinámico:
+            - Siempre se puede apilar, ya que cuando se llega al tope, se puede pedir más memoria (ya que es dinámico).
+            - Para ver si está vacía, el tope tiene que ser igual a 0.
+            - Para desapilar, el tope tiene que ser distinto a 0.
+        En esta implementación, se debe tener en cuenta la REDIMENSIÓN del vector.
+        Por ejemplo, si estoy apilando y el vector supera el 75% de su capacidad, debo hacer realloc al vector para pedirle más memoria.
+        Pero en el caso de que esté desapilando, si la capacidad ocupada es del 25%, también debería hacer realloc del mismo.
+        - Pila como lista de nodos: en esta implementación, el puntero de la pila apunta al primer nodo de la misma. En este caso, los nodos se componen de un puntero al nodo anterior y un elemento.
 <div align="center">
 <img width="70%" src="img/pila.drawio.svg">
 </div>
@@ -168,13 +152,9 @@ COLA
 </div>
 
 En esta oportunidad, decimos que una cola es, también, una estructura de datos que agrupa elementos, pero que en este caso aplica la política FIFO "First In, First Out".
-Al igual que las anteriores, tiene ciertas operaciones que se pueden realizar:
-    - Crear
+Al igual que la pila, tiene otras que se pueden realizar:
     - Destruir
-    - Encolar ó agregar
-    - Desencolar ó sacar
     - Primero: devuelve qué elemento está adelante de todo.
-    - Vacío: devuelve un booleano según la lista esté vacía o no.
 
 Las implementaciones de la cola se dividen en las mismas categorías que la pila:
     - Vector estático: en este caso, cuando el tope y el fin son iguales, no se pueden encolar más elementos.
@@ -195,7 +175,6 @@ Las implementaciones de la cola se dividen en las mismas categorías que la pila
 <img width="70%" src="img/desencolar_cola_circular.drawio.svg">
 </div>
     - Vector dinámico: encolar y desencolar funcionan de manera similar que con un vector estático. La diferencia es que, al encolar, puedo redimensionar el vector para no quedarme sin espacio.
-
     - Nodos enlazados: en este caso, cada cola tiene un puntero al principio y otro al final de la misma.
 <div align="center">
 <img width="70%" src="img/cola_nodos_vacía.drawio.svg">
@@ -211,6 +190,3 @@ Las implementaciones de la cola se dividen en las mismas categorías que la pila
 <div align="center">
 <img width="70%" src="img/desencolar_nodos.drawio.svg">
 </div>
-
-# TDA_Lista
-# TDA_Lista_Algo2
