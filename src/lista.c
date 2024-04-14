@@ -177,6 +177,17 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),
 			    void *contexto)
 {
+	if(lista == NULL || comparador == NULL)
+		return NULL;
+	
+	nodo_t* nodo = lista->nodo_inicio;
+	
+	while (nodo != NULL){
+		if(comparador(nodo->elemento, contexto) == 0)
+			return nodo->elemento;
+		nodo = nodo->siguiente;
+	}
+
 	return NULL;
 }
 
@@ -211,7 +222,7 @@ size_t lista_tamanio(lista_t *lista)
 
 void lista_destruir(lista_t *lista)
 {
-	if (lista==NULL)
+	if (lista == NULL)
 		return;
 
 	nodo_t* nodo = lista->nodo_inicio;
@@ -254,20 +265,18 @@ void lista_iterador_destruir(lista_iterador_t *iterador)
 
 size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *), void *contexto)
 {
-	if (lista == NULL || lista->espacios == 0 || funcion == NULL) {
-	return 0;
-	}
+	if (lista == NULL || lista->espacios == 0 || funcion == NULL)
+		return 0;
 
 	nodo_t *nodo_actual = lista->nodo_inicio;
 	size_t cant_elementos_iterados = 0;
 	bool continuo_iterando = true;
 
 	while (nodo_actual != NULL && cant_elementos_iterados < lista->espacios && continuo_iterando) {
-	printf("Iterando sobre elemento: %s\n", (char *)nodo_actual->elemento);
-	continuo_iterando = funcion(nodo_actual->elemento, contexto);
+		continuo_iterando = funcion(nodo_actual->elemento, contexto);
 
-	nodo_actual = nodo_actual->siguiente;
-	cant_elementos_iterados++;
+		nodo_actual = nodo_actual->siguiente;
+		cant_elementos_iterados++;
 	}
 
 	return cant_elementos_iterados;

@@ -1,6 +1,7 @@
 #include "pa2m.h"
 #include "src/lista.h"
 #include <stdio.h>
+#include <string.h>
 
 typedef struct nodo {
 	void *elemento;
@@ -159,9 +160,9 @@ void quitar_elemento_en_posicion_i_en_lista(){
 }
 
 bool mostrar_para_prueba_iterador_interno(void* elemento, void* contador){
-    if(elemento && contador)
-        (*(int*)contador)++;
-    return true;
+	if(elemento && contador)
+		(*(int*)contador)++;
+	return true;
 }
 
 void iterador_interno_en_lista() {
@@ -170,31 +171,72 @@ void iterador_interno_en_lista() {
 	char *prueba_1 = "prueba elemento 1";
 	char *prueba_2 = "prueba elemento 2";
 
-	// Prueba 1: Validar comportamiento cuando la función no existe
 	size_t cantidad = lista_con_cada_elemento(NULL, mostrar_para_prueba_iterador_interno, &cant_elementos_iterados);
 	pa2m_afirmar(cantidad == 0 && cant_elementos_iterados == 0, "Iterador interno con función NULL");
 
-	// Prueba 2: Validar comportamiento con función NULL en la lista
 	cantidad = lista_con_cada_elemento(lista, NULL, &cant_elementos_iterados);
 	pa2m_afirmar(cantidad == 0 && cant_elementos_iterados == 0, "Iterador interno con función NULL en lista");
 
-	// Prueba 3: Validar comportamiento con lista vacía
 	cantidad = lista_con_cada_elemento(lista, mostrar_para_prueba_iterador_interno, &cant_elementos_iterados);
 	pa2m_afirmar(cantidad == 0 && cant_elementos_iterados == 0, "Iterador interno con lista vacía");
 
-	// Insertar elementos en la lista
 	lista_insertar(lista, prueba_1);
 	lista_insertar(lista, prueba_2);
 
-	// Prueba 4: Validar iteración sobre lista con elementos
 	cantidad = lista_con_cada_elemento(lista, mostrar_para_prueba_iterador_interno, &cant_elementos_iterados);
 	pa2m_afirmar(cantidad == 2 && cant_elementos_iterados == 2, "Iterador interno con lista no vacía");
 
-	// Prueba 5: Validar iteración sobre lista con elementos, contexto NULL
 	cantidad = lista_con_cada_elemento(lista, mostrar_para_prueba_iterador_interno, NULL);
-	pa2m_afirmar(cantidad == 2 && cant_elementos_iterados == 0, "Iterador interno con lista no vacía, contexto NULL");
+	pa2m_afirmar(cantidad == 2 && cant_elementos_iterados == 2, "Iterador interno con lista no vacía, contexto NULL");
 
-	// Destruir la lista
+	lista_destruir(lista);
+}
+
+int comparar_cadenas(void *elemento, void *contexto) {
+	char *cadena_elemento = (char *)elemento;
+	char *cadena_buscar = (char *)contexto;
+	return strcmp(cadena_elemento, cadena_buscar);
+}
+
+int comparar_enteros(void *elemento, void *contexto) {
+	int valor_elemento = *(int *)elemento;
+	int valor_buscar = *(int *)contexto;
+	return (valor_elemento == valor_buscar) ? 0 : 1;
+}
+
+void buscar_elemento_en_lista() {
+	lista_t* lista = lista_crear();
+	char* prueba_1 = "hola";
+	char* prueba_2 = "mundo";
+	int num_1 = 100;
+	int num_2 = 200;
+
+	void* buscador = NULL;
+
+	lista_insertar(lista, prueba_1);
+	lista_insertar(lista, prueba_2);
+	lista_insertar(lista, &num_1);
+	lista_insertar(lista, &num_2);
+
+	buscador = lista_buscar_elemento(NULL, comparar_cadenas, prueba_2);
+	pa2m_afirmar(buscador == NULL, "Buscador de lista NULL devuelve NULL.");
+
+	buscador = lista_buscar_elemento(lista, NULL, prueba_2);
+	pa2m_afirmar(buscador == NULL, "Buscador de lista con comparador NULL devuelve NULL.");
+
+	buscador = lista_buscar_elemento(lista, comparar_cadenas, prueba_2);
+	pa2m_afirmar(buscador == prueba_2, "Buscador de un elemento (cadena de strings) que existe en la lista devuelve el elemento correcto.");
+
+	buscador = lista_buscar_elemento(lista, comparar_cadenas, "no_existe");
+	pa2m_afirmar(buscador == NULL, "Buscador de un elemento que no existe (cadena de strings) en la lista devuelve NULL.");
+
+	buscador = lista_buscar_elemento(lista, comparar_enteros, &num_1);
+	pa2m_afirmar(buscador == &num_1, "Buscador de un elemento (número entero) que existe en la lista devuelve el elemento correcto.");
+
+	int prueba_entero = 9;
+	buscador = lista_buscar_elemento(lista, comparar_cadenas, &prueba_entero);
+	pa2m_afirmar(buscador == NULL, "Buscador de un elemento que no existe (número entero) en la lista devuelve NULL.");
+
 	lista_destruir(lista);
 }
 
@@ -218,6 +260,10 @@ int main()
 	pa2m_nuevo_grupo(
 		"\n======================== Pruebas iterador interno ========================");
 	iterador_interno_en_lista();
+
+	pa2m_nuevo_grupo(
+		"\n======================== Pruebas buscador elementos ========================");
+	buscar_elemento_en_lista();
 
 	return pa2m_mostrar_reporte();
 }
