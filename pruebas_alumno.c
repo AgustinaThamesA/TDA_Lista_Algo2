@@ -219,26 +219,141 @@ void buscar_elemento_en_lista() {
 	lista_insertar(lista, &num_2);
 
 	buscador = lista_buscar_elemento(NULL, comparar_cadenas, prueba_2);
-	pa2m_afirmar(buscador == NULL, "Buscador de lista NULL devuelve NULL.");
+	pa2m_afirmar(buscador == NULL, 	
+		"Buscador de lista NULL devuelve NULL.");
 
 	buscador = lista_buscar_elemento(lista, NULL, prueba_2);
-	pa2m_afirmar(buscador == NULL, "Buscador de lista con comparador NULL devuelve NULL.");
+	pa2m_afirmar(buscador == NULL, 
+		"Buscador de lista con comparador NULL devuelve NULL.");
 
 	buscador = lista_buscar_elemento(lista, comparar_cadenas, prueba_2);
-	pa2m_afirmar(buscador == prueba_2, "Buscador de un elemento (cadena de strings) que existe en la lista devuelve el elemento correcto.");
+	pa2m_afirmar(buscador == prueba_2, 
+		"Buscador de un elemento (cadena de strings) que existe en la lista devuelve el elemento correcto.");
 
 	buscador = lista_buscar_elemento(lista, comparar_cadenas, "no_existe");
-	pa2m_afirmar(buscador == NULL, "Buscador de un elemento que no existe (cadena de strings) en la lista devuelve NULL.");
+	pa2m_afirmar(buscador == NULL, 
+		"Buscador de un elemento que no existe (cadena de strings) en la lista devuelve NULL.");
 
 	buscador = lista_buscar_elemento(lista, comparar_enteros, &num_1);
-	pa2m_afirmar(buscador == &num_1, "Buscador de un elemento (número entero) que existe en la lista devuelve el elemento correcto.");
+	pa2m_afirmar(buscador == &num_1, 
+		"Buscador de un elemento (número entero) que existe en la lista devuelve el elemento correcto.");
 
 	int prueba_entero = 9;
 	buscador = lista_buscar_elemento(lista, comparar_cadenas, &prueba_entero);
-	pa2m_afirmar(buscador == NULL, "Buscador de un elemento que no existe (número entero) en la lista devuelve NULL.");
+	pa2m_afirmar(buscador == NULL, 
+		"Buscador de un elemento que no existe (número entero) en la lista devuelve NULL.");
 
 	lista_destruir(lista);
 }
+
+void iterador_externo_en_lista(){
+	lista_t* lista = lista_crear();
+	lista_iterador_t* iterador = NULL;
+	char *prueba_1 = "prueba elemento 1";
+	char *prueba_2 = "prueba elemento 2";
+	char *prueba_3 = "prueba elemento 3";
+
+	iterador = lista_iterador_crear(NULL);
+	pa2m_afirmar(iterador == NULL, 
+		"No se crea un iterador de una lista NULL.");
+
+	iterador = lista_iterador_crear(lista);
+	pa2m_afirmar(iterador->lista == lista &&
+		iterador->actual == lista->nodo_inicio, 
+		"Se crea correctamente un iterador de una lista vacía.");
+	lista_iterador_destruir(iterador);
+
+
+	lista_insertar(lista, prueba_1);
+	lista_insertar(lista, prueba_2);
+	lista_insertar(lista, prueba_3);
+	iterador = lista_iterador_crear(lista);
+	pa2m_afirmar(iterador->lista == lista &&
+		iterador->actual == lista->nodo_inicio, 
+		"El iterador inicialmente apunta al elemento correcto de la lista.");
+
+	pa2m_afirmar(lista_iterador_tiene_siguiente(NULL) == false, 
+		"Iterador no tiene siguiente en lista NULL.");
+
+	lista_destruir(lista);
+	lista_iterador_destruir(iterador);
+
+	lista = lista_crear();
+	iterador = lista_iterador_crear(lista);
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador) == false, 
+		"Iterador no tiene siguiente en lista vacía.");
+	
+	lista_destruir(lista);
+	lista_iterador_destruir(iterador);
+
+	lista = lista_crear();
+	lista_insertar(lista, prueba_1);
+	lista_insertar(lista, prueba_2);
+	iterador = lista_iterador_crear(lista);
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador) == true, 
+		"Iterador tiene siguiente en lista de elementos.");
+	
+	lista_destruir(lista);
+	lista_iterador_destruir(iterador);
+
+	pa2m_afirmar(lista_iterador_avanzar(NULL) == false, 
+		"Iterador no puede avanzar con una lista NULL.");
+
+	lista = lista_crear();
+	iterador = lista_iterador_crear(lista);
+	bool puede_avanzar = lista_iterador_avanzar(iterador);
+	pa2m_afirmar(puede_avanzar == false &&
+		iterador->actual == NULL, 
+		"Iterador no puede avanzar con una lista vacía.");
+
+	lista_destruir(lista);
+	lista_iterador_destruir(iterador);
+
+	lista = lista_crear();
+	lista_insertar(lista, prueba_1);
+	iterador = lista_iterador_crear(lista);
+	puede_avanzar = lista_iterador_avanzar(iterador);
+	pa2m_afirmar(puede_avanzar == false &&
+		iterador->actual == NULL, 
+		"Iterador no puede avanzar con una lista de un sólo elemento.");
+
+	lista_destruir(lista);
+	lista_iterador_destruir(iterador);
+
+	lista = lista_crear();
+	lista_insertar(lista, prueba_1);
+	lista_insertar(lista, prueba_2);
+	lista_insertar(lista, prueba_3);
+	iterador = lista_iterador_crear(lista);
+	puede_avanzar = lista_iterador_avanzar(iterador);
+	pa2m_afirmar(puede_avanzar == true &&
+		iterador->actual == lista->nodo_inicio->siguiente, 
+		"Iterador avanza una vez con una lista de 3 elementos.");
+
+	lista_destruir(lista);
+	lista_iterador_destruir(iterador);
+
+	lista = lista_crear();
+	lista_insertar(lista, prueba_1);
+	lista_insertar(lista, prueba_2);
+	lista_insertar(lista, prueba_3);
+	iterador = lista_iterador_crear(lista);
+	puede_avanzar = lista_iterador_avanzar(iterador);
+	puede_avanzar = lista_iterador_avanzar(iterador);
+	pa2m_afirmar(puede_avanzar == true &&
+		iterador->actual == lista->nodo_final, 
+		"Iterador avanza hasta llegar al último elemento de una lista de 3 elementos.");
+
+	puede_avanzar = lista_iterador_avanzar(iterador);
+	pa2m_afirmar(puede_avanzar == false &&
+		iterador->actual == NULL, 
+		"Iterador avanza hasta que termina una lista de 3 elementos, y termina apuntando a NULL.");
+
+	lista_destruir(lista);
+	lista_iterador_destruir(iterador);
+
+}
+
 
 int main()
 {
@@ -264,6 +379,10 @@ int main()
 	pa2m_nuevo_grupo(
 		"\n======================== Pruebas buscador elementos ========================");
 	buscar_elemento_en_lista();
+	
+	pa2m_nuevo_grupo(
+		"\n======================== Pruebas iterador externo ========================");
+	iterador_externo_en_lista();
 
 	return pa2m_mostrar_reporte();
 }

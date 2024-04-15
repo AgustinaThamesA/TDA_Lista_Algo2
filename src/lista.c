@@ -241,26 +241,45 @@ void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 
 lista_iterador_t *lista_iterador_crear(lista_t *lista)
 {
-	return NULL;
+	if (lista == NULL)
+		return NULL;
+
+	lista_iterador_t* lista_iterador = malloc(sizeof(lista_iterador_t));
+
+	if (lista_iterador == NULL)
+		return NULL;
+	
+	lista_iterador->lista = lista;
+	lista_iterador->actual = lista->nodo_inicio;
+	
+	return lista_iterador;
 }
 
 bool lista_iterador_tiene_siguiente(lista_iterador_t *iterador)
 {
-	return false;
+    return (iterador != NULL && iterador->actual != NULL);
 }
 
 bool lista_iterador_avanzar(lista_iterador_t *iterador)
 {
-	return false;
+    if (lista_iterador_tiene_siguiente(iterador)) {
+        iterador->actual = iterador->actual->siguiente;
+        return true;
+    }
+    return false;
 }
 
 void *lista_iterador_elemento_actual(lista_iterador_t *iterador)
 {
+	if(lista_iterador_tiene_siguiente(iterador))
+		return iterador->actual->elemento;
+
 	return NULL;
 }
 
 void lista_iterador_destruir(lista_iterador_t *iterador)
 {
+	free(iterador);
 }
 
 size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *), void *contexto)
@@ -268,14 +287,14 @@ size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *), 
 	if (lista == NULL || lista->espacios == 0 || funcion == NULL)
 		return 0;
 
-	nodo_t *nodo_actual = lista->nodo_inicio;
+	nodo_t *nodo = lista->nodo_inicio;
 	size_t cant_elementos_iterados = 0;
 	bool continuo_iterando = true;
 
-	while (nodo_actual != NULL && cant_elementos_iterados < lista->espacios && continuo_iterando) {
-		continuo_iterando = funcion(nodo_actual->elemento, contexto);
+	while (nodo != NULL && cant_elementos_iterados < lista->espacios && continuo_iterando) {
+		continuo_iterando = funcion(nodo->elemento, contexto);
 
-		nodo_actual = nodo_actual->siguiente;
+		nodo = nodo->siguiente;
 		cant_elementos_iterados++;
 	}
 
