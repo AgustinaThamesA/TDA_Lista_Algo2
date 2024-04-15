@@ -260,12 +260,12 @@ bool lista_iterador_tiene_siguiente(lista_iterador_t *iterador)
     return (iterador != NULL && iterador->actual != NULL);
 }
 
-bool lista_iterador_avanzar(lista_iterador_t *iterador)
-{
-    if (lista_iterador_tiene_siguiente(iterador)) {
-        iterador->actual = iterador->actual->siguiente;
-        return true;
+bool lista_iterador_avanzar(lista_iterador_t* iterador){
+    if (!lista_iterador_tiene_siguiente(iterador) || iterador == NULL){
+        return false;
     }
+    if ((iterador->actual = iterador->actual->siguiente))
+        return true;
     return false;
 }
 
