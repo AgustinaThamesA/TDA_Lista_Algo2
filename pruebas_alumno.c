@@ -456,6 +456,103 @@ void tope_pila_correcto(){
 	pila_destruir(pila);
 }
 
+void crea_cola_vacia(){
+	cola_t* cola = cola_crear();
+	pa2m_afirmar(cola != NULL &&
+		cola_tamanio(cola) == 0, 
+		"Se crea cola vacía correctamente.");
+	cola_destruir(cola);
+}
+
+void prueba_booleano_cola_vacia(){
+	cola_t* cola = cola_crear();
+	int prueba_1 = 1;
+	int prueba_2 = 2;
+	int prueba_3 = 3;
+
+	pa2m_afirmar(cola_vacia(NULL) == true, "Cola NULL devuelve cola vacía true.");
+	pa2m_afirmar(cola_vacia(cola) == true, "Cola vacía devuelve cola vacía true.");
+
+	cola_encolar(cola, &prueba_1);
+	cola_encolar(cola, &prueba_2);
+	cola_encolar(cola, &prueba_3);
+
+	bool vacia = cola_vacia(cola); 
+
+	pa2m_afirmar(vacia == false, "Cola no vacía devuelve cola vacía false.");
+
+	cola_destruir(cola);
+}
+
+void encola_correctamente(){
+	cola_t* cola = cola_crear();
+	int prueba_1 = 1;
+	int prueba_2 = 2;
+	int prueba_3 = 3;
+	cola_t* encola = cola_encolar(NULL, &prueba_1);
+	pa2m_afirmar(encola == NULL, "No encola con cola NULL.");
+
+	encola = cola_encolar(cola, &prueba_1);
+
+	pa2m_afirmar(encola != NULL &&
+		cola_tamanio(cola) == 1, 
+		"Encola un elemento correctamente.");
+
+	encola = cola_encolar(cola, &prueba_2);
+	encola = cola_encolar(cola, &prueba_3);
+
+	pa2m_afirmar(encola != NULL &&
+		cola_tamanio(cola) == 3, 
+		"Encola tres elementos correctamente.");
+
+	cola_destruir(cola);
+}
+
+void desencola_correctamente(){
+	cola_t* cola = cola_crear();
+	int prueba_1 = 1;
+	int prueba_2 = 2;
+	int prueba_3 = 3;
+	void* desencola = cola_desencolar(cola);
+	pa2m_afirmar(cola_desencolar(NULL) == NULL, 
+		"No desencola una cola NULL.");
+
+	pa2m_afirmar(desencola == NULL, "No desencola una cola vacía.");
+
+	cola_encolar(cola, &prueba_1);
+	cola_encolar(cola, &prueba_2);
+	cola_encolar(cola, &prueba_3);
+
+	desencola = cola_desencolar(cola);
+
+	pa2m_afirmar(desencola != NULL &&
+		cola_tamanio(cola) == 2, 
+		"Desencola un elemento correctamente.");
+
+	cola_destruir(cola);
+}
+
+void cola_primero_correcto(){
+	cola_t* cola = cola_crear();
+	int prueba_1 = 1;
+	int prueba_2 = 2;
+	int prueba_3 = 3;
+
+	pa2m_afirmar(cola_frente(NULL) == NULL, 
+		"Tope NULL de cola NULL.");
+
+	pa2m_afirmar(cola_frente(cola) == NULL, 
+		"Tope NULL de cola vacía.");
+
+	cola_encolar(cola, &prueba_1);
+	cola_encolar(cola, &prueba_2);
+	cola_encolar(cola, &prueba_3);
+	void* primero = cola_frente(cola);
+	pa2m_afirmar(primero == &prueba_1, 
+		"Devuelve primero correcto de cola con 3 elementos.");
+
+	cola_destruir(cola);
+}
 
 int main()
 {
@@ -465,18 +562,22 @@ int main()
 	crea_lista_vacia();
 	crea_pila_vacia();
 	prueba_booleano_pila_vacia();
+	crea_cola_vacia();
+	prueba_booleano_cola_vacia();
 
 	pa2m_nuevo_grupo(
 		"\n======================== Pruebas inserción elementos ========================");
 	inserta_elementos_en_lista();
 	inserta_elementos_en_posicion_i_lista();
 	apila_correctamente();
+	encola_correctamente();
 
 	pa2m_nuevo_grupo(
 		"\n======================== Pruebas eliminar elementos ========================");
 	quitar_elementos_en_lista();
 	quitar_elemento_en_posicion_i_en_lista();
 	desapila_correctamente();
+	desencola_correctamente();
 
 	pa2m_nuevo_grupo(
 		"\n======================== Pruebas iterador interno ========================");
@@ -486,6 +587,7 @@ int main()
 		"\n======================== Pruebas buscador elementos ========================");
 	buscar_elemento_en_lista();
 	tope_pila_correcto();
+	cola_primero_correcto();
 	
 	pa2m_nuevo_grupo(
 		"\n======================== Pruebas iterador externo ========================");
