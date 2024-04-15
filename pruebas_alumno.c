@@ -1,5 +1,7 @@
 #include "pa2m.h"
 #include "src/lista.h"
+#include "src/pila.h"
+#include "src/cola.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -354,6 +356,106 @@ void iterador_externo_en_lista(){
 
 }
 
+void crea_pila_vacia(){
+	pila_t* pila = pila_crear();
+
+	pa2m_afirmar(pila != NULL &&
+		pila_tamanio(pila) == 0, 
+		"Se crea pila vacía correctamente.");
+	pila_destruir(pila);
+}
+
+void apila_correctamente(){
+	pila_t* pila = pila_crear();
+	int prueba_1 = 1;
+	int prueba_2 = 2;
+	int prueba_3 = 3;
+	pila_t* apila = pila_apilar(NULL, &prueba_1);
+	pa2m_afirmar(apila == NULL, "No apila con pila NULL.");
+
+	apila = pila_apilar(pila, &prueba_1);
+
+	pa2m_afirmar(apila != NULL &&
+		pila_tamanio(pila) == 1, 
+		"Apila un elemento correctamente.");
+
+	apila = pila_apilar(pila, &prueba_2);
+	apila = pila_apilar(pila, &prueba_3);
+
+	pa2m_afirmar(apila != NULL &&
+		pila_tamanio(pila) == 3, 
+		"Apila tres elementos correctamente.");
+
+	pila_destruir(pila);
+}
+
+void desapila_correctamente(){
+	pila_t* pila = pila_crear();
+	int prueba_1 = 1;
+	int prueba_2 = 2;
+	int prueba_3 = 3;
+	void* desapila = pila_desapilar(pila);
+	pa2m_afirmar(pila_desapilar(NULL) == NULL, 
+		"No desapila una pila NULL.");
+
+	pa2m_afirmar(desapila == NULL, "No desapila una pila vacía.");
+
+	pila_apilar(pila, &prueba_1);
+	pila_apilar(pila, &prueba_2);
+	pila_apilar(pila, &prueba_3);
+
+	desapila = pila_desapilar(pila);
+
+	pa2m_afirmar(desapila != NULL &&
+		pila_tamanio(pila) == 2, 
+		"Desapila un elemento correctamente.");
+
+	pila_destruir(pila);
+}
+
+void prueba_booleano_pila_vacia(){
+	pila_t* pila = pila_crear();
+	int prueba_1 = 1;
+	int prueba_2 = 2;
+	int prueba_3 = 3;
+
+	pa2m_afirmar(pila_vacia(NULL) == true, "Pila NULL devuelve pila vacía true.");
+	pa2m_afirmar(pila_vacia(pila) == true, "Pila vacía devuelve pila vacía true.");
+
+	pila_apilar(pila, &prueba_1);
+	pila_apilar(pila, &prueba_2);
+	pila_apilar(pila, &prueba_3);
+
+	bool vacia = pila_vacia(pila); 
+
+	pa2m_afirmar(vacia == false, "Pila no vacía devuelve pila vacía false.");
+
+	pila_destruir(pila);
+}
+
+void tope_pila_correcto(){
+	pila_t* pila = pila_crear();
+	int prueba_1 = 1;
+	int prueba_2 = 2;
+	int prueba_3 = 3;
+
+	pa2m_afirmar(pila_tope(NULL) == NULL, 
+		"Tope NULL de pila NULL.");
+
+	pa2m_afirmar(pila_tope(pila) == NULL, 
+		"Tope NULL de pila vacía.");
+
+	pila_apilar(pila, &prueba_1);
+	pila_apilar(pila, &prueba_2);
+	pila_apilar(pila, &prueba_3);
+	void* tope = pila_tope(pila);
+	pa2m_afirmar(tope == &prueba_3, 
+		"Devuelve tope correcto de pila con 3 elementos.");
+
+
+	pila_destruir(pila);
+}
+
 
 int main()
 {
@@ -361,16 +463,20 @@ int main()
 		"\n======================== Pruebas creación ========================");
 	crear_lista_devuelve_lista_con_nodos_null_y_espacios_en_0();
 	crea_lista_vacia();
+	crea_pila_vacia();
+	prueba_booleano_pila_vacia();
 
 	pa2m_nuevo_grupo(
 		"\n======================== Pruebas inserción elementos ========================");
 	inserta_elementos_en_lista();
 	inserta_elementos_en_posicion_i_lista();
+	apila_correctamente();
 
 	pa2m_nuevo_grupo(
 		"\n======================== Pruebas eliminar elementos ========================");
 	quitar_elementos_en_lista();
 	quitar_elemento_en_posicion_i_en_lista();
+	desapila_correctamente();
 
 	pa2m_nuevo_grupo(
 		"\n======================== Pruebas iterador interno ========================");
@@ -379,6 +485,7 @@ int main()
 	pa2m_nuevo_grupo(
 		"\n======================== Pruebas buscador elementos ========================");
 	buscar_elemento_en_lista();
+	tope_pila_correcto();
 	
 	pa2m_nuevo_grupo(
 		"\n======================== Pruebas iterador externo ========================");
