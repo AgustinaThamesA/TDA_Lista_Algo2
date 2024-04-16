@@ -247,3 +247,55 @@ Las implementaciones de la cola se dividen en las mismas categorías que la pila
 
 
 **PUNTO 3:** Explica la complejidad de las operaciones implementadas en tu trabajo para la pila y la cola.
+
+Antes de analizar la complejidad de las operaciones implementadas en los archivos de pila y cola, se debe tneer en cuenta que, principalmente, se utilizan funciones de los archivos lista para facilitar la estructura del código. Es decir, se reutilizan funciones creadas para el TDA Lista, ya que Cola y Pila son estructuras de datos prácticamente basadas en Lista. Habiendo dejado eso en claro, paso al análisis de complejidad de cada operación:
+
+#### Complejidades de pila.c
+##### pila_crear()
+Complejidad: O(1) 
+
+##### pila_apilar()
+Complejidad: O(1) 
+
+##### pila_desapilar()
+Complejidad: O(1) 
+
+##### pila_tope()
+Complejidad: O(1) 
+
+##### pila_tamanio()
+Complejidad: O(1) 
+
+##### pila_vacia()
+Complejidad: O(1) 
+
+##### pila_destruir()
+Complejidad: O(n) 
+
+#### Complejidades de cola.c
+##### cola_crear()
+Complejidad: O(1) 
+
+##### cola_encolar()
+Complejidad: O(1) 
+
+##### cola_desencolar()
+Complejidad: O(1) 
+
+##### cola_frente()
+Complejidad: O(1) 
+
+##### cola_tamanio()
+Complejidad: O(1) 
+
+##### cola_encolar()
+Complejidad: O(1) 
+
+##### cola_vacia()
+Complejidad: O(1) 
+
+##### cola_destruir()
+Complejidad: O(n) 
+
+##### A destacar:
+Se debe tener en cuenta, que las operaciones con complejidad O(1), son operaciones que reutilizan funciones de la lista. En cambio, ambas funciones de destruir (que tienen complejidad O(n)), tiene que destruir la pila/cola utilizada, y además la lista que está dentro de su respectivo struct.
