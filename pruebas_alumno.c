@@ -554,6 +554,28 @@ void cola_primero_correcto(){
 	cola_destruir(cola);
 }
 
+void destruir_elemento(void *elemento) {
+	free(elemento);
+}
+
+void funcionalidad_lista_destruir_todo(){
+	lista_t* lista = lista_crear();
+	int *elemento_1 = malloc(sizeof(int));
+	*elemento_1 = 1;
+	int *elemento_2 = malloc(sizeof(int));
+	*elemento_2 = 2;
+	
+	lista_insertar(lista, elemento_1);
+	lista_t* lista_pruebas = lista_insertar(lista, elemento_2);
+	pa2m_afirmar(lista_pruebas != 0 && 
+		lista->nodo_inicio->elemento == elemento_1 && 
+		lista->nodo_final->elemento == elemento_2 && 
+		lista->espacios == 2, 
+		"Inserción correcta de elementos que usan memoria en el heap en lista con 2 elementos int que ocupan memoria del stack.");
+
+	lista_destruir_todo(lista, destruir_elemento);
+}
+
 int main()
 {
 	pa2m_nuevo_grupo(
@@ -592,6 +614,11 @@ int main()
 	pa2m_nuevo_grupo(
 		"\n======================== Pruebas iterador externo ========================");
 	iterador_externo_en_lista();
+
+
+	pa2m_nuevo_grupo(
+		"\n======================== Prueba destruir todo ========================");
+	funcionalidad_lista_destruir_todo();
 
 	return pa2m_mostrar_reporte();
 }

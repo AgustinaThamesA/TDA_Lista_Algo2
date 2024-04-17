@@ -237,6 +237,20 @@ void lista_destruir(lista_t *lista)
 
 void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 {
+	if (lista == NULL)
+		return;
+
+	nodo_t *nodo = lista->nodo_inicio;
+
+	while (nodo != NULL) {
+		nodo_t *nodo_siguiente = nodo->siguiente;
+		if (funcion != NULL){
+			funcion(nodo->elemento);
+		}
+		free(nodo);
+		nodo = nodo_siguiente;
+	}
+	free(lista);
 }
 
 lista_iterador_t *lista_iterador_crear(lista_t *lista)
@@ -300,4 +314,3 @@ size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *), 
 
 	return cant_elementos_iterados;
 }
-
