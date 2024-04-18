@@ -110,7 +110,7 @@ void quitar_elementos_en_lista()
 	char *prueba_1 = "prueba elemento 1";
 	char *prueba_2 = "prueba elemento 2";
 
-	lista_t *lista_pruebas = lista_quitar(NULL);
+	void *lista_pruebas = lista_quitar(NULL);
 	pa2m_afirmar(lista_pruebas == NULL,
 		     "No se puede usar lista_quitar para una lista NULL.");
 
@@ -127,9 +127,7 @@ void quitar_elementos_en_lista()
 	lista_insertar(lista, prueba_1);
 	lista_insertar(lista, prueba_2);
 	lista_pruebas = lista_quitar(lista);
-	pa2m_afirmar(lista_pruebas != NULL &&
-			     lista->nodo_inicio->elemento == prueba_1 &&
-			     lista->nodo_final->elemento == prueba_1 &&
+	pa2m_afirmar(lista_pruebas == prueba_2 &&
 			     lista->espacios == 1,
 		     "Se borra el último elemento de una lista correctamente.");
 
