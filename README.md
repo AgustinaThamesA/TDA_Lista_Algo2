@@ -73,14 +73,88 @@ vector_original = vector;
 - Se implementa una cola utilizando la lista enlazada implementada anteriormente.
 - Se han implementado funciones para crear una cola, encolar elementos, desencolar elementos, obtener el frente de la cola, obtener el tamaño de la cola, verificar si la cola está vacía y destruir la cola.
 
+### Funcionamiento específico del programa:
+#### En `lista.c`:
+
+- **`lista_t *lista_crear()`:** Esta función crea una nueva lista vacía. Reserva memoria para la estructura `lista_t` y la inicializa con valores predeterminados, como punteros a `NULL` y tamaño inicial de 0.
+
+- **`lista_t *lista_insertar(lista_t *lista, void *elemento)`:** Inserta un nuevo elemento al final de la lista. Si la lista está vacía, crea un nuevo nodo y lo asigna tanto como el inicio como el final de la lista. Si la lista ya contiene elementos, agrega el nuevo nodo al final y actualiza el puntero al último nodo.
+
+- **`lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento, size_t posicion)`:** Inserta un nuevo elemento en una posición específica de la lista. Si la posición especificada es igual al tamaño de la lista, el elemento se inserta al final. Si la posición es 0, se inserta al principio. En otro caso, se busca el nodo en la posición anterior a la especificada y se ajustan los punteros para insertar el nuevo nodo en medio de la lista.
+
+- **`void *lista_quitar(lista_t *lista)`:** Elimina el último elemento de la lista y lo devuelve. Se ajustan los punteros para mantener la integridad de la lista y se libera la memoria del nodo eliminado.
+
+- **`void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)`:** Elimina y devuelve el elemento en la posición especificada de la lista. Se ajustan los punteros para mantener la integridad de la lista y se libera la memoria del nodo eliminado.
+
+- **`void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)`:** Retorna el elemento ubicado en la posición especificada en la lista. Itera sobre los nodos de la lista hasta alcanzar la posición deseada y devuelve el elemento asociado.
+
+- **`void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *), void *contexto)`:** Busca un elemento que cumpla con cierta condición determinada por una función comparadora. Itera sobre los nodos de la lista y aplica la función comparadora a cada elemento hasta encontrar una coincidencia.
+
+- **`void *lista_primero(lista_t *lista)`:** Retorna el primer elemento de la lista sin eliminarlo.
+
+- **`void *lista_ultimo(lista_t *lista)`:** Retorna el último elemento de la lista sin eliminarlo.
+
+- **`bool lista_vacia(lista_t *lista)`:** Verifica si la lista está vacía.
+
+- **`size_t lista_tamanio(lista_t *lista)`:** Retorna la cantidad de elementos almacenados en la lista.
+
+- **`void lista_destruir(lista_t *lista)`:** Libera la memoria reservada para la lista y sus nodos.
+
+- **`void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))`:** Libera la memoria reservada para la lista y sus nodos, y aplica una función a cada elemento antes de eliminarlo.
+
+- **`lista_iterador_t *lista_iterador_crear(lista_t *lista)`:** Crea un iterador para recorrer la lista.
+
+- **`bool lista_iterador_tiene_siguiente(lista_iterador_t *iterador)`:** Verifica si el iterador tiene un siguiente elemento.
+
+- **`bool lista_iterador_avanzar(lista_iterador_t *iterador)`:** Avanza el iterador al siguiente elemento de la lista.
+
+- **`void *lista_iterador_elemento_actual(lista_iterador_t *iterador)`:** Retorna el elemento actual del iterador.
+
+- **`void lista_iterador_destruir(lista_iterador_t *iterador)`:** Libera la memoria reservada para el iterador.
+
+- **`size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *), void *contexto)`:** Itera sobre todos los elementos de la lista y aplica una función a cada uno de ellos. La iteración se detiene si la función devuelve `false`.
+
+#### En `pila.c`:
+
+- **`pila_t *pila_crear()`:** Crea una nueva pila vacía utilizando una lista enlazada. Simplemente crea una lista vacía utilizando la función `lista_crear()`.
+
+- **`pila_t *pila_apilar(pila_t *pila, void *elemento)`:** Inserta un nuevo elemento en la parte superior de la pila. Utiliza la función `lista_insertar()` para agregar el elemento al final de la lista, que representa el tope de la pila.
+
+- **`void *pila_desapilar(pila_t *pila)`:** Elimina y devuelve el elemento en la parte superior de la pila. Utiliza la función `lista_quitar()` para eliminar el último elemento de la lista, que representa el tope de la pila.
+
+- **`void *pila_tope(pila_t *pila)`:** Retorna el elemento en la parte superior de la pila sin eliminarlo. Accede al último elemento de la lista, que representa el tope de la pila.
+
+- **`size_t pila_tamanio(pila_t *pila)`:** Retorna la cantidad de elementos almacenados en la pila.
+
+- **`bool pila_vacia(pila_t *pila)`:** Verifica si la pila está vacía.
+
+- **`void pila_destruir(pila_t *pila)`:** Libera la memoria reservada para la pila y sus nodos.
+
+#### En `cola.c`:
+
+- **`cola_t *cola_crear()`:** Crea una nueva cola vacía utilizando una lista enlazada. Simplemente crea una lista vacía utilizando la función `lista_crear()`.
+
+- **`cola_t *cola_encolar(cola_t *cola, void *elemento)`:** Encola un nuevo elemento al final de la cola. Utiliza la función `lista_insertar()` para agregar el elemento al final de la lista.
+
+- **`void *cola_desencolar(cola_t *cola)`:** Desencola y devuelve el elemento en el frente de la cola. Utiliza la función `lista_quitar_de_posicion()` para eliminar el primer elemento de la lista, que representa el frente de la cola.
+
+- **`void *cola_frente(cola_t *cola)`:** Retorna el elemento en el frente de la cola sin eliminarlo. Accede al primer elemento de la lista, que representa el frente de la cola.
+
+- **`size_t cola_tamanio(cola_t *cola)`:** Retorna la cantidad de elementos almacenados en la cola.
+
+- **`bool cola_vacia(cola_t *cola)`:** Verifica si la cola está vacía.
+
+- **`void cola_destruir(cola_t *cola)`:** Libera la memoria reservada para la cola y sus nodos.
+
+
 ### Decisiones tomadas a lo largo del TP:
 - Uso de listas enlazadas: se utilizó la implementación de nodos enlazados, ya que facilita el manejo de los mismos, en operaciones tales como inserción, búsqueda y eliminación.
 
 - Manejo de memoria: se tuvo en cuenta la reserva de memoria (dinámica) en el heap mediante el uso de mallocs para la lista y para cada nodo por separado. A su vez, se libera la memoria una vez que ya no se requiera la misma.
 
-- Verificaciones: se hacen validaciones de los datos enviados por arámetro en cada función.
+- Verificaciones: se hacen validaciones de los datos enviados por parámetro en cada función.
 
-Diagramas relevantes:
+### Diagramas relevantes:
 
 ---
 
