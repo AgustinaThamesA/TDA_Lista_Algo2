@@ -56,6 +56,32 @@ vector_original = vector;
 <img width="70%" src="img/diagrama2.svg">
 </div>
 
+### Funcionamiento general del programa:
+1. **Lista**
+
+- Se implementa una lista enlazada simple. Cada nodo de la lista contiene un puntero al elemento y un puntero al siguiente nodo.
+- Se han implementado funciones para insertar elementos al final o en una posición específica, quitar elementos del final o de una posición específica, buscar elementos, obtener el primero y el último elemento, verificar si la lista está vacía, obtener el tamaño de la lista y destruir la lista.
+- Para insertar elementos en una posición específica, se busca el nodo en esa posición y se ajustan los punteros para insertar el nuevo nodo en medio de la lista.
+- Para quitar elementos de una posición específica, se ajustan los punteros del nodo anterior y del siguiente al nodo a eliminar.
+- Se implementa un iterador para recorrer la lista.
+  
+2. **Pila**
+- Se implementa una pila utilizando la lista enlazada implementada anteriormente.
+- Se han implementado funciones para crear una pila, apilar elementos, desapilar elementos, obtener el tope de la pila, obtener el tamaño de la pila, verificar si la pila está vacía y destruir la pila.
+
+3. **Cola**
+- Se implementa una cola utilizando la lista enlazada implementada anteriormente.
+- Se han implementado funciones para crear una cola, encolar elementos, desencolar elementos, obtener el frente de la cola, obtener el tamaño de la cola, verificar si la cola está vacía y destruir la cola.
+
+### Decisiones tomadas a lo largo del TP:
+- Uso de listas enlazadas: se utilizó la implementación de nodos enlazados, ya que facilita el manejo de los mismos, en operaciones tales como inserción, búsqueda y eliminación.
+
+- Manejo de memoria: se tuvo en cuenta la reserva de memoria (dinámica) en el heap mediante el uso de mallocs para la lista y para cada nodo por separado. A su vez, se libera la memoria una vez que ya no se requiera la misma.
+
+- Verificaciones: se hacen validaciones de los datos enviados por arámetro en cada función.
+
+Diagramas relevantes:
+
 ---
 
 ## Respuestas a las preguntas teóricas
