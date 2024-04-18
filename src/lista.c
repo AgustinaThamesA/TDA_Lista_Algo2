@@ -130,16 +130,22 @@ void *lista_quitar(lista_t *lista)
 		return NULL;
 
 	nodo_t *nodo_a_quitar = lista->nodo_final;
-	lista->nodo_final = lista_nodo_en_posicion(lista, lista->espacios - 2);
+	size_t i = lista->espacios;
+	if (lista->espacios == 1)
+		i = 2;
+	
+	lista->nodo_final = lista_nodo_en_posicion(lista, i - 2);
 	if (lista->nodo_final != NULL)
 		lista->nodo_final->siguiente = NULL;
 
 	free(nodo_a_quitar);
 	(lista->espacios)--;
 
-	if (lista->espacios == 0)
+	if (lista->espacios == 0){
 		lista->nodo_inicio = NULL;
-
+		lista->nodo_final = NULL;
+	}
+		
 	return lista;
 }
 
