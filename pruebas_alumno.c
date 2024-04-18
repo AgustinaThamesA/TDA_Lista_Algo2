@@ -142,7 +142,7 @@ void quitar_elemento_en_posicion_i_en_lista()
 	char *prueba_1 = "prueba elemento 1";
 	char *prueba_2 = "prueba elemento 2";
 
-	lista_t *lista_pruebas = lista_quitar_de_posicion(NULL, 0);
+	void *lista_pruebas = lista_quitar_de_posicion(NULL, 0);
 	pa2m_afirmar(
 		lista_pruebas == NULL,
 		"No se puede usar lista_quitar_de_posicion para una lista NULL.");
@@ -155,8 +155,9 @@ void quitar_elemento_en_posicion_i_en_lista()
 	lista_insertar(lista, prueba_1);
 	lista_insertar(lista, prueba_2);
 
-	lista_quitar_de_posicion(lista, 0);
+	lista_pruebas = lista_quitar_de_posicion(lista, 0);
 	pa2m_afirmar(lista != NULL &&
+			     lista_pruebas == prueba_1 &&
 			     lista->nodo_inicio->elemento == prueba_2 &&
 			     lista->nodo_final->elemento == prueba_2 &&
 			     lista->espacios == 1,
@@ -164,12 +165,11 @@ void quitar_elemento_en_posicion_i_en_lista()
 
 	lista_quitar_de_posicion(lista, 8);
 	pa2m_afirmar(lista != NULL &&
-			     lista->nodo_inicio->elemento == prueba_2 &&
-			     lista->nodo_final->elemento == prueba_2 &&
-			     lista->espacios == 1,
-		     "No se borra el elemento de la lista ya que se pasa una "
+			     lista->nodo_inicio == NULL &&
+			     lista->nodo_final == NULL &&
+			     lista->espacios == 0,
+		     "Se borra el último elemento de la lista ya que se pasa una "
 		     "posición que no existe.");
-
 	lista_destruir(lista);
 }
 
@@ -621,6 +621,42 @@ void funcionalidad_lista_destruir_todo()
 	lista_destruir_todo(lista, destruir_elemento);
 }
 
+void quitar_muchos_elementos(){
+	lista_t *lista = lista_crear();
+	char* num = "1";
+	lista_t* prueba;
+	for (int i = 0; i < 5000; i++){
+		prueba = lista_insertar(lista, num);
+	}
+	pa2m_afirmar(
+		prueba != NULL &&
+			lista->espacios == 5000,
+		"5000 elementos en lista");
+	for(int i = 0; i < 1000; i++){
+		prueba = lista_quitar_de_posicion(lista, 0);
+	}
+	pa2m_afirmar(
+		prueba != NULL &&
+			lista->espacios == 4000,
+		"4000 elementos en lista");
+	for(int i = 0; i < 1000; i++){
+		prueba = lista_quitar_de_posicion(lista, 100);
+	}
+	pa2m_afirmar(
+		prueba != NULL &&
+			lista->espacios == 3000,
+		"3000 elementos en lista");
+	for(int i = 0; i < 1000; i++){
+		prueba = lista_quitar(lista);
+	}
+	pa2m_afirmar(
+		prueba != NULL &&
+			lista->espacios == 2000,
+		"2000 elementos en lista");
+
+	lista_destruir(lista);
+}
+
 int main()
 {
 	pa2m_nuevo_grupo(
@@ -645,6 +681,7 @@ int main()
 		"========================");
 	quitar_elementos_en_lista();
 	quitar_elemento_en_posicion_i_en_lista();
+	quitar_muchos_elementos();
 	desapila_correctamente();
 	desencola_correctamente();
 

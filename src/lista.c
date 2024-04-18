@@ -151,26 +151,13 @@ void *lista_quitar(lista_t *lista)
 
 void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 {
-	if (lista == NULL || lista->espacios == 0 ||
-	    posicion >= lista->espacios)
+	if (lista == NULL || lista->espacios == 0)
 		return NULL;
 
 	nodo_t *nodo_a_eliminar = NULL;
 
 	if (posicion >= lista->espacios){
-		nodo_a_eliminar = lista->nodo_final;
-		nodo_t *predecesor = lista_nodo_en_posicion(lista, lista->espacios - 1);
-		if (predecesor == NULL)
-			return NULL;
-		free(nodo_a_eliminar);
-		(lista->espacios)--;
-
-		if (lista->espacios == 0)
-			lista->nodo_inicio = NULL;
-		lista->nodo_final = predecesor;
-		lista->nodo_final->siguiente = NULL;
-
-		return lista;
+		return lista_quitar(lista);
 	}
 
 	if (posicion == 0) {
@@ -185,14 +172,16 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 		nodo_a_eliminar = predecesor->siguiente;
 		predecesor->siguiente = nodo_a_eliminar->siguiente;
 	}
-
+	void *elemento = nodo_a_eliminar->elemento;
 	free(nodo_a_eliminar);
 	(lista->espacios)--;
 
-	if (lista->espacios == 0)
+	if (lista->espacios == 0){
 		lista->nodo_inicio = NULL;
+		lista->nodo_final = NULL;
+	}
 
-	return lista;
+	return elemento;
 }
 
 void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
