@@ -106,6 +106,10 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 	} else {
 		nodo_t *nodo_anterior =
 			lista_nodo_en_posicion(lista, posicion - 1);
+		if (nodo_anterior == NULL) {
+			free(nodo);
+			return NULL;
+		}
 		nodo->siguiente = nodo_anterior->siguiente;
 		nodo_anterior->siguiente = nodo;
 	}
