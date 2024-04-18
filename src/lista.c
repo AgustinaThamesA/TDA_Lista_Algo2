@@ -71,11 +71,15 @@ lista_t *lista_insertar(lista_t *lista, void *elemento)
 
 nodo_t *lista_nodo_en_posicion(lista_t *lista, size_t posicion)
 {
-	if (lista == NULL || posicion >= lista->espacios)
+	if (lista == NULL)
 		return NULL;
 
 	nodo_t *nodo = lista->nodo_inicio;
 	size_t i = 0;
+
+	if (posicion >= lista->espacios){
+		nodo = lista->nodo_final;
+	}
 
 	while (i < posicion) {
 		nodo = nodo->siguiente;
@@ -91,14 +95,15 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 	if (lista == NULL)
 		return NULL;
 
+	if (lista->espacios == 0 || posicion >= lista->espacios) {
+		return lista_insertar(lista, elemento);
+	}
+
 	nodo_t *nodo = nuevo_nodo(elemento);
 
 	if (nodo == NULL)
 		return NULL;
 
-	if (lista->espacios == 0 || posicion >= lista->espacios) {
-		return lista_insertar(lista, elemento);
-	}
 
 	if (posicion == 0) {
 		nodo->siguiente = lista->nodo_inicio;
@@ -106,7 +111,7 @@ lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
 	} else {
 		nodo_t *nodo_anterior =
 			lista_nodo_en_posicion(lista, posicion - 1);
-		if (nodo_anterior == NULL) {
+		if (nodo_anterior == NULL){
 			free(nodo);
 			return NULL;
 		}
@@ -145,6 +150,22 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 		return NULL;
 
 	nodo_t *nodo_a_eliminar = NULL;
+
+	if (posicion >= lista->espacios){
+		nodo_a_eliminar = lista->nodo_final;
+		nodo_t *predecesor = lista_nodo_en_posicion(lista, lista->espacios - 1);
+		if (predecesor == NULL)
+			return NULL;
+		free(nodo_a_eliminar);
+		(lista->espacios)--;
+
+		if (lista->espacios == 0)
+			lista->nodo_inicio = NULL;
+		lista->nodo_final = predecesor;
+		lista->nodo_final->siguiente = NULL;
+
+		return lista;
+	}
 
 	if (posicion == 0) {
 		nodo_a_eliminar = lista->nodo_inicio;
@@ -263,7 +284,7 @@ void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 lista_iterador_t *lista_iterador_crear(lista_t *lista)
 {
 	if (lista == NULL)
-		return NULL;
+		return 0;
 
 	lista_iterador_t *lista_iterador = malloc(sizeof(lista_iterador_t));
 
@@ -301,7 +322,8 @@ void *lista_iterador_elemento_actual(lista_iterador_t *iterador)
 
 void lista_iterador_destruir(lista_iterador_t *iterador)
 {
-	free(iterador);
+	if (iterador != NULL)
+		free(iterador);
 }
 
 size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
