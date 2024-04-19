@@ -75,6 +75,9 @@ nodo_t *lista_nodo_en_posicion(lista_t *lista, size_t posicion)
 		return NULL;
 
 	nodo_t *nodo = lista->nodo_inicio;
+	if (nodo == NULL)
+		return NULL;
+
 	size_t i = 0;
 
 	if (posicion >= lista->espacios) {
@@ -129,6 +132,9 @@ void *lista_quitar(lista_t *lista)
 		return NULL;
 
 	nodo_t *nodo_a_quitar = lista->nodo_final;
+	if (nodo_a_quitar == NULL)
+		return NULL;
+
 	size_t i = lista->espacios;
 	if (lista->espacios == 1)
 		i = 2;
@@ -200,7 +206,7 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),
 			    void *contexto)
 {
-	if (lista == NULL || comparador == NULL)
+	if (lista == NULL || comparador == NULL || contexto == NULL)
 		return NULL;
 
 	nodo_t *nodo = lista->nodo_inicio;
@@ -232,7 +238,8 @@ void *lista_ultimo(lista_t *lista)
 
 bool lista_vacia(lista_t *lista)
 {
-	return lista == false || lista->espacios == 0;
+	return lista == false || lista->espacios == 0 ||
+	       lista->nodo_inicio == NULL || lista->nodo_final == NULL;
 }
 
 size_t lista_tamanio(lista_t *lista)
@@ -278,7 +285,7 @@ void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 
 lista_iterador_t *lista_iterador_crear(lista_t *lista)
 {
-	if (lista == NULL)
+	if (lista == NULL || lista->espacios == 0)
 		return 0;
 
 	lista_iterador_t *lista_iterador = malloc(sizeof(lista_iterador_t));
@@ -309,6 +316,8 @@ bool lista_iterador_avanzar(lista_iterador_t *iterador)
 
 void *lista_iterador_elemento_actual(lista_iterador_t *iterador)
 {
+	if (iterador == NULL)
+		return NULL;
 	if (lista_iterador_tiene_siguiente(iterador))
 		return iterador->actual->elemento;
 
@@ -324,7 +333,8 @@ void lista_iterador_destruir(lista_iterador_t *iterador)
 size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
 			       void *contexto)
 {
-	if (lista == NULL || lista->espacios == 0 || funcion == NULL)
+	if (lista == NULL || lista->espacios == 0 || funcion == NULL ||
+	    contexto == NULL)
 		return 0;
 
 	nodo_t *nodo = lista->nodo_inicio;
