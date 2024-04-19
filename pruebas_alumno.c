@@ -193,9 +193,9 @@ void iterador_interno_en_lista()
 
 	cantidad = lista_con_cada_elemento(
 		lista, mostrar_para_prueba_iterador_interno, NULL);
-	/*pa2m_afirmar(cantidad == 2 && cant_elementos_iterados == 2,
+	pa2m_afirmar(cantidad == 2 && cant_elementos_iterados == 2,
 		     "Iterador interno con lista no vacía, contexto NULL");
-*/
+
 	lista_destruir(lista);
 }
 
@@ -276,8 +276,8 @@ void iterador_externo_en_lista()
 		     "No se crea un iterador de una lista NULL.");
 
 	iterador = lista_iterador_crear(lista);
-	pa2m_afirmar(iterador == NULL,
-		     "No se crea un iterador de una lista vacía.");
+	pa2m_afirmar(iterador != NULL,
+		     "Se crea un iterador de una lista vacía.");
 	lista_iterador_destruir(iterador);
 
 	lista_insertar(lista, prueba_1);
