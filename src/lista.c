@@ -206,7 +206,7 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion)
 void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),
 			    void *contexto)
 {
-	if (lista == NULL || comparador == NULL || contexto == NULL)
+	if (lista == NULL || comparador == NULL)
 		return NULL;
 
 	nodo_t *nodo = lista->nodo_inicio;
@@ -285,7 +285,7 @@ void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 
 lista_iterador_t *lista_iterador_crear(lista_t *lista)
 {
-	if (lista == NULL || lista->espacios == 0)
+	if (lista == NULL)
 		return 0;
 
 	lista_iterador_t *lista_iterador = malloc(sizeof(lista_iterador_t));
@@ -333,8 +333,7 @@ void lista_iterador_destruir(lista_iterador_t *iterador)
 size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
 			       void *contexto)
 {
-	if (lista == NULL || lista->espacios == 0 || funcion == NULL ||
-	    contexto == NULL)
+	if (lista == NULL || lista->espacios == 0 || funcion == NULL)
 		return 0;
 
 	nodo_t *nodo = lista->nodo_inicio;
