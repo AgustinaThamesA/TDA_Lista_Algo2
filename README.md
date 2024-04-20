@@ -6,10 +6,12 @@
 
 ## Alumno: Agustina Thames Alderete - 111287 - athames@fi.uba.ar
 
+A la hora de correr el programa, yo utilicé la línea para compilar y la línea de ejecución con valgrind, ya que el makefile ya tenía incorporada una forma más eficiente de hacerlo.
+
 - Para compilar:
 
 ```bash
-línea de compilación
+touch pruebas_alumno.c
 ```
 
 - Para ejecutar:
@@ -20,41 +22,12 @@ línea de ejecución
 
 - Para ejecutar con valgrind:
 ```bash
-línea con valgrind
+make
 ```
 
 ---
 
 ##  Funcionamiento
-
-Explicación de cómo funcionan las estructuras desarrolladas en el TP y el funcionamiento general del mismo.
-
-Aclarar en esta parte todas las decisiones que se tomaron al realizar el TP, cosas que no se aclaren en el enunciado, fragmentos de código que necesiten explicación extra, etc.
-
-Incluír **EN TODOS LOS TPS** los diagramas relevantes al problema (mayormente diagramas de memoria para explicar las estructuras, pero se pueden utilizar otros diagramas si es necesario).
-
-### Por ejemplo:
-
-El programa funciona abriendo el archivo pasado como parámetro y leyendolo línea por línea. Por cada línea crea un registro e intenta agregarlo al vector. La función de lectura intenta leer todo el archivo o hasta encontrar el primer error. Devuelve un vector con todos los registros creados.
-
-<div align="center">
-<img width="70%" src="img/diagrama1.svg">
-</div>
-
-En el archivo `sarasa.c` la función `funcion1` utiliza `realloc` para agrandar la zona de memoria utilizada para conquistar el mundo. El resultado de `realloc` lo guardo en una variable auxiliar para no perder el puntero original en caso de error:
-
-```c
-int *vector = realloc(vector_original, (n+1)*sizeof(int));
-
-if(vector == NULL)
-    return -1;
-vector_original = vector;
-```
-
-
-<div align="center">
-<img width="70%" src="img/diagrama2.svg">
-</div>
 
 ### Funcionamiento general del programa:
 1. **Lista**
@@ -155,6 +128,45 @@ vector_original = vector;
 - Verificaciones: se hacen validaciones de los datos enviados por parámetro en cada función.
 
 ### Diagramas relevantes:
+
+A continuación se podrán ver los diagramas de funcionamiento de las operaciones básicas de los TDA de lista/pila/cola, entre ellos se encuentran: insertar, buscar, eliminar y destruir.
+
+<div align="center">
+<img width="45%" src="img/diagrama_flujo_insertar_lista.drawio.svg">
+</div>
+<div align="center">
+<img width="45%" src="img/diagrama_flujo_apilar.drawio.svg">
+</div>
+<div align="center">
+<img width="45%" src="img/diagrama_flujo_encolar.drawio.svg">
+</div>
+<div align="center">
+<img width="45%" src="img/diagrama_flujo_buscar_lista.drawio.svg">
+</div>
+<div align="center">
+<img width="45%" src="img/diagrama_flujo_quitar_lista.drawio.svg">
+</div>
+<div align="center">
+<img width="45%" src="img/diagrama_flujo_desapilar.drawio.svg">
+</div>
+<div align="center">
+<img width="45%" src="img/diagrama_flujo_desencolar.drawio.svg">
+</div>
+<div align="center">
+<img width="45%" src="img/diagrama_flujo_destruir_lista.drawio.svg">
+</div>
+<div align="center">
+<img width="45%" src="img/diagrama_flujo_destruir_pila.drawio.svg">
+</div>
+<div align="center">
+<img width="45%" src="img/diagrama_flujo_destruir_cola.drawio.svg">
+</div>
+
+A su vez, el siguiente diagrama grafica el uso de memoria que se hace en las funciones lista_crear(), pila_crear(), nuevo_nodo(), cola_crear(), y las variables utilizadas en las pruebas.
+<div align="center">
+<img width="45%" src="img/stack_heap_diagrama.drawio.svg">
+</div>
+
 
 ---
 
